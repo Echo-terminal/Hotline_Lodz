@@ -10,6 +10,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "Engine/LocalPlayer.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -60,6 +61,9 @@ void AHotline_LodzCharacter::SetupPlayerInputComponent(UInputComponent* PlayerIn
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AHotline_LodzCharacter::Look);
+
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Triggered, this, &AHotline_LodzCharacter::startSprint);
+		EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Completed, this, &AHotline_LodzCharacter::endSprint);
 	}
 	else
 	{
@@ -92,4 +96,14 @@ void AHotline_LodzCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AHotline_LodzCharacter::startSprint()
+{
+	GetCharacterMovement()->MaxWalkSpeed = sprintSpeed;
+}
+
+void AHotline_LodzCharacter::endSprint()
+{
+	GetCharacterMovement()->MaxWalkSpeed = walkSpeed;
 }

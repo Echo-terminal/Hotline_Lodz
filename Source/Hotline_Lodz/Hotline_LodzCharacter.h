@@ -36,6 +36,9 @@ class AHotline_LodzCharacter : public ACharacter
 	/** Move Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Input, meta=(AllowPrivateAccess = "true"))
 	UInputAction* MoveAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* SprintAction;
 	
 public:
 	AHotline_LodzCharacter();
@@ -55,6 +58,14 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	void startSprint();
+	void endSprint();
+
+	UPROPERTY(EditAnywhere, category = "Movement")
+	float walkSpeed;
+	UPROPERTY(EditAnywhere, category = "Movement")
+	float sprintSpeed;
 
 protected:
 	// APawn interface
